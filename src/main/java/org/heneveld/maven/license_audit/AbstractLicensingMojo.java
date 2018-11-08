@@ -134,7 +134,7 @@ public abstract class AbstractLicensingMojo extends AbstractMojo {
             
         if (isNonEmpty(outputFilePath)) {
             try {
-                outputWriter = new FileWriter(outputFilePath);
+                outputWriter = new FileWriter(outputFilePath, true);
             } catch (IOException e) {
                 throw new MojoExecutionException("Error creating "+outputFilePath+": "+e);
             }
