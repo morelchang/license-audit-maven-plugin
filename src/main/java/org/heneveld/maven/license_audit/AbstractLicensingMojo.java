@@ -464,6 +464,10 @@ public abstract class AbstractLicensingMojo extends AbstractMojo {
         return licensesStringInternal(licenses, false, true, includeComments);
     }
 
+    protected static String licensesString(Iterable<? extends License> licenses) {
+        return licensesStringInternal(licenses, true, true, false);
+    }
+
     protected static Map<String,String> licenseMap(License l) {
         // NB: subtly different messages if things are empty
         Map<String,String> result = new LinkedHashMap<>(); 
@@ -486,23 +490,42 @@ public abstract class AbstractLicensingMojo extends AbstractMojo {
     private static String licensesStringInternal(Iterable<? extends License> licenses, boolean preferSummaryCodeOverName, boolean includeUrl, boolean includeComments) {
         // NB: subtly different messages if things are empty 
         if (licenses==null) return "<no license info>";
+        String sep = " / ";
         Set<String> result = new LinkedHashSet<String>();
+        StringBuilder ri = new StringBuilder();
+        int licenseCount = 0;
         for (License l: licenses) {
             Map<String, String> lm = licenseMap(l);
-            StringBuilder ri = new StringBuilder();
             if (preferSummaryCodeOverName && lm.containsKey("code")) {
-                ri.append(lm.get("code"));
+                ri.append(lm.get("code") + sep);
             } else if (lm.containsKey("name")) {
-                ri.append(lm.get("name"));
+                System.out.println("license name not mapped:" + lm.get("name"));
+                ri.append(lm.get("name") + sep);
             }
+            licenseCount++;
+        }
+        if (licenseCount > 0) {
+            ri = new StringBuilder(ri.substring(0, ri.lastIndexOf(sep)));
+            ri.append(",");
+        }
+
+        for (License l: licenses) {
             if (isNonEmpty(l.getUrl())) {
                 if (ri.length()>0) {
                     if (!includeUrl) { /* nothing */ }
-                    else { ri.append(" ("+l.getUrl()+")"); }
+                    else { ri.append(l.getUrl()); }
                 } else {
                     ri.append(l.getUrl());
                 }
             }
+            ri.append(sep);
+        }
+        if (licenseCount > 0) {
+            ri = new StringBuilder(ri.substring(0, ri.lastIndexOf(sep)));
+            ri.append(": ");
+        }
+
+        for (License l: licenses) {
             if (isNonEmpty(l.getComments())) {
                 if (ri.length()>0) {
                     if (!includeComments) { /* nothing */ }
@@ -511,13 +534,14 @@ public abstract class AbstractLicensingMojo extends AbstractMojo {
                     ri.append("Comment: "+l.getComments());
                 }
             }
-
-            if (ri.toString().trim().length()>0) {
-                result.add(ri.toString().trim());
-            } else {
-                result.add("<no info on license>");
-            }
         }
+
+        if (ri.toString().trim().length()>0) {
+            result.add(ri.toString().trim());
+        } else {
+            result.add("<no info on license>");
+        }
+
         if (result.size()>0) return join(result, "\n");
         return "<no licenses>";
     }

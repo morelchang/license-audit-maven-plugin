@@ -534,7 +534,7 @@ public class LicenseAuditMojo extends AbstractLicensingMojo {
 //            Set<DependencyNode> referencingDNs = depNodesByIdCache.get(id);
 
             List<License> lics = getLicenses(p, id);
-            String licenseLine = (suppressLicenseInfo ? "" : ": "+((lics!=null && !lics.isEmpty()) || p!=null ? oneLine(licensesSummaryString(lics), "; ") : "<not loaded>"));
+            String licenseLine = (suppressLicenseInfo ? "" : ": "+((lics!=null && !lics.isEmpty()) || p!=null ? oneLine(licensesString(lics), "; ") : "<not loaded>"));
             
             output(id+
                 (errs==null || errs.isEmpty() ? "" : " (ERROR)")+

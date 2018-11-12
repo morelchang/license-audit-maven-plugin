@@ -124,12 +124,16 @@ public class LicenseCodes {
         addCodeFromMainNamePattern("GPL-2.0", "2.0", "GNU General Public License, version 2.0", "http://www.gnu.org/licenses/gpl-2.0.html",  
             "gnu"+anyNumberOf(anyOf(" general", " public")));
 
-        addCodeFromMainNamePattern("LGPL-3.0", "3.0", "GNU Lesser General Public License, version 3.0", "http://www.gnu.org/licenses/lgpl-3.0.html",  
+        addCodeFromMainNamePattern("LGPL-3.0", "3.0", "GNU Lesser General Public License, version 3.0", "http://www.gnu.org/licenses/lgpl-3.0.html",
             orReversed("lesser", " ", "gnu")+anyNumberOf(anyOf(" general", " public")), true);
-        addCodeFromMainNamePattern("LGPL-2.1", "2.1", "GNU Lesser General Public License, version 2.1", "http://www.gnu.org/licenses/lgpl-2.0.html",  
+        addCodeFromMainNamePattern("LGPL-2.1", "2.1", "GNU Lesser General Public License, version 2.1", "http://www.gnu.org/licenses/lgpl-2.1.html",  
             orReversed("lesser", " ", "gnu")+anyNumberOf(anyOf(" general", " public")));
         addCodeFromMainNamePattern("LGPL-2.0", "2.0", "GNU Lesser General Public License, version 2.0", "http://www.gnu.org/licenses/lgpl-2.0.html",  
             orReversed("lesser", " ", "gnu")+anyNumberOf(anyOf(" general", " public")));
+
+        addCodeWithRegex("LGPL-2.1", newLicense("Lesser General Public License (LGPL) v 2.1", "http://www.gnu.org/licenses/lgpl-2.1.html", null), "Lesser General Public License \\(LGPL\\) v 2.1");
+        addCodeWithRegex("LGPL-2.1", newLicense("GNU Lesser General Public License, Version 2.1", "http://www.gnu.org/licenses/lgpl-2.1.html", null), "GNU Lesser General Public License, Version 2.1");
+        addCodeWithRegex("LGPL-3.0", newLicense("Lesser General Public License, version 3 or greater", "http://www.gnu.org/licenses/lgpl-3.0.html", null), "Lesser General Public License, version 3 or greater");
 
         addCodeFromMainNamePattern("MPL-2.0", "2.0", "Mozilla Public License, version 2.0", "https://www.mozilla.org/MPL/2.0/",  
             "mozilla"+anyNumberOf(anyOf(" public", " software")), true);
